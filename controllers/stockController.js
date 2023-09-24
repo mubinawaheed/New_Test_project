@@ -10,10 +10,13 @@ const viewClosingPrice = async (req, res) => {
     try {
         const { symbol, startDate, endDate } = req.params
 
+        if(!symbol || symbol==':symbol' || !endDate || endDate==':endDate' || !startDate || startDate==':startDate'){
+            return res.status(400).send("Bad request")
+        }
+
         const range = momentRange.range(startDate, endDate);
         let datesArray = Array.from(range.by('days'));
         datesArray = datesArray.map(date => date.format('YYYY-MM-DD'));
-        // console.log(datesArray)
 
         const closingPrices = []
 
